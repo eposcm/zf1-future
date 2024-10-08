@@ -1050,7 +1050,9 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
      */
     public function getScheme()
     {
-        return ($this->getServer('HTTPS') == 'on') ? self::SCHEME_HTTPS : self::SCHEME_HTTP;
+        return (strtolower((string) $this->getServer('HTTPS')) === 'on') || $this->getServer('HTTP_X_FORWARDED_PROTO') === 'https'
+            ? self::SCHEME_HTTPS
+            : self::SCHEME_HTTP;
     }
 
     /**
