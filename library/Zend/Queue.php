@@ -378,7 +378,7 @@ class Zend_Queue implements Countable
         /**
          * @see Zend_Queue_Adapter_Null
          */
-        require_once('Zend/Queue/Adapter/Null.php');
+        require_once 'Zend/Queue/Adapter/Null.php';
         $this->setAdapter(new Zend_Queue_Adapter_Null($this->getOptions()));
 
         return $deleted;

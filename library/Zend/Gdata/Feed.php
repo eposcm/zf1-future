@@ -172,7 +172,7 @@ class Zend_Gdata_Feed extends Zend_Gdata_App_Feed
                 $this->_etag = $etag;
             }
             elseif ($this->_etag != $etag) {
-                require_once('Zend/Gdata/App/IOException.php');
+                require_once 'Zend/Gdata/App/IOException.php';
                 throw new Zend_Gdata_App_IOException("ETag mismatch");
             }
             break;

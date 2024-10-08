@@ -159,7 +159,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
         // completes. (See ZF-5949)
         $response = $e->getResponse();
         if (!$response) {
-          require_once('Zend/Gdata/App/IOException.php');
+          require_once 'Zend/Gdata/App/IOException.php';
           throw new Zend_Gdata_App_IOException('No HTTP response received (possible connection failure)');
         }
 

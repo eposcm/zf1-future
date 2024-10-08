@@ -62,7 +62,7 @@ class Zend_Crypt_Math_BigInteger
     public function __construct($extension = null)
     {
         if ($extension !== null && !in_array($extension, ['bcmath', 'gmp', 'bigint'])) {
-            require_once('Zend/Crypt/Math/BigInteger/Exception.php');
+            require_once 'Zend/Crypt/Math/BigInteger/Exception.php';
             throw new Zend_Crypt_Math_BigInteger_Exception('Invalid extension type; please use one of bcmath, gmp or bigint');
         }
         $this->_loadAdapter($extension);

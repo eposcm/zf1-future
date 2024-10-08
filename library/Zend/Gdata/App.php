@@ -416,7 +416,7 @@ class Zend_Gdata_App
     public function setMajorProtocolVersion($value)
     {
         if (!($value >= 1)) {
-            require_once('Zend/Gdata/App/InvalidArgumentException.php');
+            require_once 'Zend/Gdata/App/InvalidArgumentException.php';
             throw new Zend_Gdata_App_InvalidArgumentException(
                     'Major protocol version must be >= 1');
         }
@@ -446,7 +446,7 @@ class Zend_Gdata_App
     public function setMinorProtocolVersion($value)
     {
         if (!($value >= 0)) {
-            require_once('Zend/Gdata/App/InvalidArgumentException.php');
+            require_once 'Zend/Gdata/App/InvalidArgumentException.php';
             throw new Zend_Gdata_App_InvalidArgumentException(
                     'Minor protocol version must be >= 0');
         }
