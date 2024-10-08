@@ -265,7 +265,7 @@ class Zend_Service_Amazon
      */
     static public function computeSignature($baseUri, $secretKey, array $options)
     {
-        require_once "Zend/Crypt/Hmac.php";
+        require_once 'Zend/Crypt/Hmac.php';
 
         $signature = self::buildRawSignature($baseUri, $options);
         return base64_encode(

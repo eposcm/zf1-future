@@ -817,7 +817,7 @@ class Zend_Soap_Client
             /**
              * @see Zend_Soap_Client_Exception
              */
-            require_once "Zend/Soap/Client/Exception.php";
+            require_once 'Zend/Soap/Client/Exception.php';
             throw new Zend_Soap_Client_Exception(
                 "Invalid stream context resource given."
             );

@@ -148,7 +148,7 @@ class Zend_Json
             /**
              * @see Zend_Json_Encoder
              */
-            require_once "Zend/Json/Encoder.php";
+            require_once 'Zend/Json/Encoder.php';
             $valueToEncode = self::_recursiveJsonExprFinder($valueToEncode, $javascriptExpressions);
         }
 

@@ -271,7 +271,7 @@ class Zend_Rest_Server implements Zend_Server_Interface
                         }
                     }
                 } else {
-                    require_once "Zend/Rest/Server/Exception.php";
+                    require_once 'Zend/Rest/Server/Exception.php';
                     $result = $this->fault(
                         new Zend_Rest_Server_Exception(
                             "Unknown Method '$this->_method'."
@@ -280,7 +280,7 @@ class Zend_Rest_Server implements Zend_Server_Interface
                     );
                 }
             } else {
-                require_once "Zend/Rest/Server/Exception.php";
+                require_once 'Zend/Rest/Server/Exception.php';
                 $result = $this->fault(
                     new Zend_Rest_Server_Exception(
                         "Unknown Method '$this->_method'."
@@ -289,7 +289,7 @@ class Zend_Rest_Server implements Zend_Server_Interface
                 );
             }
         } else {
-            require_once "Zend/Rest/Server/Exception.php";
+            require_once 'Zend/Rest/Server/Exception.php';
             $result = $this->fault(
                 new Zend_Rest_Server_Exception("No Method Specified."),
                 404

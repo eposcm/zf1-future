@@ -674,7 +674,7 @@ class Zend_Service_Audioscrobbler
     public function __call($method, $args)
     {
         if(substr($method, 0, 3) !== "set") {
-            require_once "Zend/Service/Exception.php";
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception(
                 "Method ".$method." does not exist in class Zend_Service_Audioscrobbler."
             );
@@ -682,7 +682,7 @@ class Zend_Service_Audioscrobbler
         $field = strtolower(substr($method, 3));
 
         if(!is_array($args) || count($args) != 1) {
-            require_once "Zend/Service/Exception.php";
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception(
                 "A value is required for setting a parameter field."
             );
