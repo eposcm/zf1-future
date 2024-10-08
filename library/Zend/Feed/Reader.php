@@ -428,14 +428,8 @@ class Zend_Feed_Reader
 
         $responseHtml = $response->getBody();
         $libxml_errflag = libxml_use_internal_errors(true);
-        if (LIBXML_VERSION < 20900) {
-            $oldValue = libxml_disable_entity_loader(true);
-        }
         $dom = new DOMDocument;
         $status = $dom->loadHTML($responseHtml);
-        if (LIBXML_VERSION < 20900) {
-            libxml_disable_entity_loader($oldValue);
-        }
         libxml_use_internal_errors($libxml_errflag);
         if (!$status) {
             // Build error message

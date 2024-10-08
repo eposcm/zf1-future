@@ -70,24 +70,12 @@ class Zend_Xml_Security
      */
     public static function scan($xml, DOMDocument $dom = null)
     {
-        // If running with PHP-FPM we perform an heuristic scan
-        // We cannot use libxml_disable_entity_loader because of this bug
-        // @see https://bugs.php.net/bug.php?id=64938
-        if (self::isPhpFpm()) {
-            self::heuristicScan($xml);
-        }
-
         if (null === $dom) {
             $simpleXml = true;
             $dom = new DOMDocument();
         }
 
-        if (!self::isPhpFpm()) {
-            if (LIBXML_VERSION < 20900) {
-                $loadEntities = libxml_disable_entity_loader(true);
-            }
-            $useInternalXmlErrors = libxml_use_internal_errors(true);
-        }
+        $useInternalXmlErrors = libxml_use_internal_errors(true);
 
         // Load XML with network access disabled (LIBXML_NONET)
         // error disabled with @ for PHP-FPM scenario
@@ -98,34 +86,22 @@ class Zend_Xml_Security
 
         if (!$result) {
             // Entity load to previous setting
-            if (!self::isPhpFpm()) {
-                if (LIBXML_VERSION < 20900) {
-                    libxml_disable_entity_loader($loadEntities);
-                }
-                libxml_use_internal_errors($useInternalXmlErrors);
-            }
+            libxml_use_internal_errors($useInternalXmlErrors);
             return false;
         }
 
         // Scan for potential XEE attacks using ENTITY, if not PHP-FPM
-        if (!self::isPhpFpm()) {
-            foreach ($dom->childNodes as $child) {
-                if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                    if ($child->entities->length > 0) {
-                        // require_once 'Exception.php';
-                        throw new Zend_Xml_Exception(self::ENTITY_DETECT);
-                    }
+        foreach ($dom->childNodes as $child) {
+            if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
+                if ($child->entities->length > 0) {
+                    // require_once 'Exception.php';
+                    throw new Zend_Xml_Exception(self::ENTITY_DETECT);
                 }
             }
         }
 
         // Entity load to previous setting
-        if (!self::isPhpFpm()) {
-            if (LIBXML_VERSION < 20900) {
-                libxml_disable_entity_loader($loadEntities);
-            }
-            libxml_use_internal_errors($useInternalXmlErrors);
-        }
+        libxml_use_internal_errors($useInternalXmlErrors);
 
         if (isset($simpleXml)) {
             $result = simplexml_import_dom($dom);
@@ -154,36 +130,6 @@ class Zend_Xml_Security
             );
         }
         return self::scan(file_get_contents($file), $dom);
-    }
-
-    /**
-     * Return true if PHP is running with PHP-FPM
-     *
-     * This method is mainly used to determine whether or not heuristic checks
-     * (vs libxml checks) should be made, due to threading issues in libxml;
-     * under php-fpm, threading becomes a concern.
-     *
-     * However, PHP versions 5.5.22+ and 5.6.6+ contain a patch to the
-     * libxml support in PHP that makes the libxml checks viable; in such
-     * versions, this method will return false to enforce those checks, which
-     * are more strict and accurate than the heuristic checks.
-     *
-     * @return boolean
-     */
-    public static function isPhpFpm()
-    {
-        $isVulnerableVersion = (
-            version_compare(PHP_VERSION, '5.5.22', 'lt')
-            || (
-                version_compare(PHP_VERSION, '5.6', 'ge')
-                && version_compare(PHP_VERSION, '5.6.6', 'lt')
-            )
-        );
-
-        if (substr(php_sapi_name(), 0, 3) === 'fpm' && $isVulnerableVersion) {
-            return true;
-        }
-        return false;
     }
 
     /**
