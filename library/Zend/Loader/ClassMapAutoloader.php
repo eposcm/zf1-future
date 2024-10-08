@@ -19,7 +19,7 @@
  */
 
 // Grab SplAutoloader interface
-// require_once dirname(__FILE__) . '/SplAutoloader.php';
+require_once dirname(__FILE__).'/SplAutoloader.php';
 
 /**
  * Class-map autoloader
@@ -145,7 +145,7 @@ class Zend_Loader_ClassMapAutoloader implements Zend_Loader_SplAutoloader
     public function autoload($class)
     {
         if (isset($this->map[$class])) {
-            // require_once $this->map[$class];
+            require_once $this->map[$class];
         }
     }
 
