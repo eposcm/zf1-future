@@ -2183,7 +2183,9 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
                     $this->_tld = $matches[1];
                     if ($this->_options['tld']) {
                         if (!in_array(strtolower($this->_tld), $this->_validTlds)
-                            && !in_array($this->_tld, $this->_validTlds)) {
+                            && !in_array($this->_tld, $this->_validTlds)
+                            && !$this->checkDnsRecords($this->_value)
+                        ) {
                             $this->_error(self::UNKNOWN_TLD);
                             $status = false;
                             break;
@@ -2414,5 +2416,24 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         }
 
         return implode('', $decoded);
+    }
+
+    /**
+     * Returns true if any DNS records corresponding to a given Internet host are found.
+     * Returns false if no DNS records were found or if an error occurred.
+     * Checks A-Record.
+     *
+     * @param string $hostName
+     *
+     * @return bool
+     */
+    protected function checkDnsRecords($hostName)
+    {
+        if (!function_exists('idn_to_ascii')) {
+            return true;
+        }
+
+        $toAscii = idn_to_ascii($hostName, IDNA_NONTRANSITIONAL_TO_ASCII);
+        return checkdnsrr($toAscii, 'A');
     }
 }
