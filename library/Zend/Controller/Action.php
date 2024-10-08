@@ -22,17 +22,17 @@
 /**
  * @see Zend_Controller_Action_HelperBroker
  */
-require_once 'Zend/Controller/Action/HelperBroker.php';
+// require_once 'Zend/Controller/Action/HelperBroker.php';
 
 /**
  * @see Zend_Controller_Action_Interface
  */
-require_once 'Zend/Controller/Action/Interface.php';
+// require_once 'Zend/Controller/Action/Interface.php';
 
 /**
  * @see Zend_Controller_Front
  */
-require_once 'Zend/Controller/Front.php';
+// require_once 'Zend/Controller/Front.php';
 
 /**
  * @category   Zend
@@ -172,7 +172,7 @@ abstract class Zend_Controller_Action implements Zend_Controller_Action_Interfac
             return $this->view;
         }
 
-        require_once 'Zend/View/Interface.php';
+        // require_once 'Zend/View/Interface.php';
         if (isset($this->view) && ($this->view instanceof Zend_View_Interface)) {
             return $this->view;
         }
@@ -185,11 +185,11 @@ abstract class Zend_Controller_Action implements Zend_Controller_Action_Interfac
         }
         $baseDir = dirname($dirs[$module]) . DIRECTORY_SEPARATOR . 'views';
         if (!file_exists($baseDir) || !is_dir($baseDir)) {
-            require_once 'Zend/Controller/Exception.php';
+            // require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Missing base view directory ("' . $baseDir . '")');
         }
 
-        require_once 'Zend/View.php';
+        // require_once 'Zend/View.php';
         $this->view = new Zend_View(['basePath' => $baseDir]);
 
         return $this->view;
@@ -280,7 +280,7 @@ abstract class Zend_Controller_Action implements Zend_Controller_Action_Interfac
         if (null === $action) {
             $action = $request->getActionName();
         } elseif (!is_string($action)) {
-            require_once 'Zend/Controller/Exception.php';
+            // require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Invalid action specifier for view render');
         }
 
@@ -437,7 +437,7 @@ abstract class Zend_Controller_Action implements Zend_Controller_Action_Interfac
         }
 
         // Throw exception in all other cases
-        require_once 'Zend/Controller/Exception.php';
+        // require_once 'Zend/Controller/Exception.php';
         throw new Zend_Controller_Exception('Front controller class has not been loaded');
     }
 
@@ -485,7 +485,7 @@ abstract class Zend_Controller_Action implements Zend_Controller_Action_Interfac
      */
     public function __call($methodName, $args)
     {
-        require_once 'Zend/Controller/Action/Exception.php';
+        // require_once 'Zend/Controller/Action/Exception.php';
         if ('Action' == substr($methodName, -6)) {
             $action = substr($methodName, 0, strlen($methodName) - 6);
             throw new Zend_Controller_Action_Exception(sprintf('Action "%s" does not exist and was not trapped in __call()', $action), 404);

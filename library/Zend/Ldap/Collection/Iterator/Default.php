@@ -107,7 +107,7 @@ class Zend_Ldap_Collection_Iterator_Default implements Iterator, Countable
             /**
              * @see Zend_Ldap_Exception
              */
-            require_once 'Zend/Ldap/Exception.php';
+            // require_once 'Zend/Ldap/Exception.php';
             throw new Zend_Ldap_Exception($this->_ldap, 'counting entries');
         }
 
@@ -281,7 +281,7 @@ class Zend_Ldap_Collection_Iterator_Default implements Iterator, Countable
             $currentDn = @ldap_get_dn($this->_ldap->getResource(), $this->_current);
             if ($currentDn === false) {
                 /** @see Zend_Ldap_Exception */
-                require_once 'Zend/Ldap/Exception.php';
+                // require_once 'Zend/Ldap/Exception.php';
                 throw new Zend_Ldap_Exception($this->_ldap, 'getting dn');
             }
             return $currentDn;
