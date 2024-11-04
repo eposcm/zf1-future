@@ -68,6 +68,13 @@ class Zend_Locale_Data
     private static $_cacheTags = false;
 
     /**
+     * Internal cache lifetime
+     *
+     * @var ?int
+     */
+    private static $_cacheLifetime = null;
+
+    /**
      * Internal option, cache disabled
      *
      * @var boolean
@@ -962,9 +969,9 @@ class Zend_Locale_Data
         if (isset(self::$_cache)) {
             $data = serialize($temp);
             if (self::$_cacheTags) {
-                self::$_cache->save($data, $id, ['Zend_Locale']);
+                self::$_cache->save($data, $id, ['Zend_Locale'], self::$_cacheLifetime);
             } else {
-                self::$_cache->save($data, $id);
+                self::$_cache->save($data, $id, [], self::$_cacheLifetime);
             }
             static::$_localCache[$id] = $temp;
         }
@@ -1039,7 +1046,7 @@ class Zend_Locale_Data
                 unset($givenLocale);
                 $temp = self::_getFile('supplementalData', '/supplementalData/calendarPreferenceData/calendarPreference[contains(@territories,\'' . $territory . '\')]', 'ordering', 'ordering');
                 if (isset($temp['ordering'])) {
-                    list($temp) = explode(' ', $temp['ordering']);
+                    [$temp] = explode(' ', $temp['ordering']);
                 } else {
                     $temp = 'gregorian';
                 }
@@ -1524,9 +1531,9 @@ class Zend_Locale_Data
         if (isset(self::$_cache)) {
             $data = serialize($temp);
             if (self::$_cacheTags) {
-                self::$_cache->save($data, $id, ['Zend_Locale']);
+                self::$_cache->save($data, $id, ['Zend_Locale'], self::$_cacheLifetime);
             } else {
-                self::$_cache->save($data, $id);
+                self::$_cache->save($data, $id, [], self::$_cacheLifetime);
             }
             static::$_localCache[$id] = $temp;
         }
@@ -1577,6 +1584,15 @@ class Zend_Locale_Data
     public static function removeCache()
     {
         self::$_cache = null;
+    }
+
+    /**
+     * @param ?int $seconds
+     * @return void
+     */
+    public static function setCacheLifetime($seconds = 7200)
+    {
+        self::$_cacheLifetime = $seconds;
     }
 
     /**
